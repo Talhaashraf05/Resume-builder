@@ -80,7 +80,7 @@ const Education = ({formValues , onFormValuesChange}) => {
                 <p>Show off them degrees!</p>
                 {formValues.education.map((education, index) => (
                     education.isEdit ?
-                        <Card key={index} variant="outlined" className="tw-w-[80%] tw-p-5 tw-m-1">
+                        <Card key={index} variant="outlined" className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[80%] ">
                             <div className="tw-w-full tw-flex tw-justify-end">
                                 <Close className='tw-font-black pointer'
                                        onClick={() => handleDeleteEducation(index)}/>
@@ -151,7 +151,7 @@ const Education = ({formValues , onFormValuesChange}) => {
                             </div>
                         </Card>
                         :
-                        <Card key={index} className="tw-w-[80%] tw-p-5 tw-m-1">
+                        <Card key={index} className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[80%] ">
                             <div className="tw-flex tw-justify-between">
                                 <h3 className="tw-font-[500]">{education.school} | {education.location}</h3>
                                 <div>

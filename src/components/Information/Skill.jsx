@@ -71,7 +71,7 @@ const Skill = ({formValues , onFormValuesChange}) =>{
                 <p>Flex your skills!</p>
                 {formValues.skills.map((skill, index) => (
                     skill.isEdit ?
-                        <Card key={index} variant="outlined" className="tw-w-[80%] tw-p-5 tw-m-1">
+                        <Card key={index} variant="outlined" className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[80%] ">
                             <div className="tw-w-full tw-flex tw-justify-end">
                                 <Close className='tw-font-black pointer'
                                        onClick={() => handleDeleteSkill(index)}/>
@@ -80,8 +80,8 @@ const Skill = ({formValues , onFormValuesChange}) =>{
                                 <TextField name="category" label="Skill Category" variant="standard"
                                            value={skill.category}
                                            onChange={(e) => handleSkillChange(index, e)} fullWidth/>
-                                <TextField name="skills" label="Skills List" variant="standard"
-                                           value={skill.skills}
+                                <TextField name="skill" label="Skills List" variant="standard"
+                                           value={skill.skill}
                                            onChange={(e) => handleSkillChange(index, e)}
                                            fullWidth
                                            helperText="Please seprate the skills with comma 'Photography, Coin collection' "
@@ -98,7 +98,7 @@ const Skill = ({formValues , onFormValuesChange}) =>{
                             </div>
                         </Card>
                         :
-                        <Card key={index} className="tw-w-[80%] tw-p-5 tw-m-1">
+                        <Card key={index} className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[80%] ">
                             <div className="tw-flex tw-justify-between">
                                 <h3><b>{skill.category}</b></h3>
                                 <div>

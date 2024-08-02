@@ -43,7 +43,7 @@ const Intro = ({formValues , onFormValuesChange}) => {
                 <h1>INTRODUCTION</h1>
                 <p>All that makes you, you!</p>
                 {formValues.isInfoEdit ?
-                    <Card variant="outlined" className="tw-w-[80%] tw-p-5">
+                    <Card variant="outlined" className="tw-w-[100%] tw-p-5 sm:tw-w-[80%]">
                         <div className="tw-gap-3 tw-flex tw-justify-between">
                             <TextField name="firstName" label="First Name" variant="standard"
                                        value={formValues.firstName}
@@ -96,7 +96,7 @@ const Intro = ({formValues , onFormValuesChange}) => {
                     </Card>
 
                     :
-                    <Card className="tw-w-[80%] tw-p-5 tw-m-1">
+                    <Card className=" tw-m-1 tw-w-[100%] tw-p-5 sm:tw-w-[80%]">
                         <div className="tw-flex tw-justify-between">
                             <h3><b>Name:</b></h3>
                             <div>
