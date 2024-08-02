@@ -94,7 +94,7 @@ const Experience = ({formValues , onFormValuesChange}) => {
                 <p>Flaunt that expertise!</p>
                 {formValues.workExperience.map((workExperience, index) => (
                     workExperience.isEdit ?
-                        <Card key={index} variant="outlined" className="tw-w-[80%] tw-p-5 tw-m-1">
+                        <Card key={index} variant="outlined" className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[80%] ">
                             <div className="tw-w-full tw-flex tw-justify-end">
                                 <Close className='tw-font-black pointer'
                                        onClick={() => handleDeleteWorkExperience(index)}/>
@@ -160,7 +160,7 @@ const Experience = ({formValues , onFormValuesChange}) => {
                             </div>
                             <div className=" tw-flex tw-justify-end">
                                 <Button
-                                    variant="contained" x
+                                    variant="contained"
                                     color="secondary"
                                     onClick={() => handleAddWorkExperience(index)}
                                 >
@@ -169,7 +169,7 @@ const Experience = ({formValues , onFormValuesChange}) => {
                             </div>
                         </Card>
                         :
-                        <Card key={index} className="tw-w-[80%] tw-p-5 tw-m-1">
+                        <Card key={index} className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[80%] ">
                             <div className="tw-flex tw-justify-between">
                                 <h3 className="tw-font-[500]">{workExperience.position}</h3>
                                 <div>

@@ -73,7 +73,7 @@ const Social = ({formValues , onFormValuesChange}) => {
                 <p>Give online connectivity a chance!</p>
                 {formValues.social.map((social, index) => (
                     social.isEdit ?
-                        <Card key={index} variant="outlined" className="tw-w-[80%] tw-p-5 tw-m-1">
+                        <Card key={index} variant="outlined" className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[80%] ">
                             <div className="tw-w-full tw-flex tw-justify-end">
                                 <Close className='tw-font-black pointer'
                                        onClick={() => handleDeleteSocial(index)}/>
@@ -119,7 +119,7 @@ const Social = ({formValues , onFormValuesChange}) => {
                             </div>
                         </Card>
                         :
-                        <Card key={index} className="tw-w-[80%] tw-p-5 tw-m-1">
+                        <Card key={index} className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[80%]">
                             <div className="tw-flex tw-justify-between">
                                 <h1>{social.platform.toUpperCase()}</h1>
                                 <div>
