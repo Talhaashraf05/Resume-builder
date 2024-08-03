@@ -56,10 +56,14 @@ const Intro = ({ formValues, onFormValuesChange }) => {
     return (
         <div>
             <Card variant="outlined" className="tw-flex tw-items-center tw-flex-col tw-w-[100%] tw-p-5 tw-mt-3">
+                {/*<div className="tw-w-full tw-flex tw-justify-center tw-items-center tw-h-[40px] tw-bg-[#9c27b0] tw-mb-5 tw-rounded">*/}
+                {/*    <h3 className="tw-font-[600] tw-text-amber-50">STEP - 1</h3>*/}
+                {/*</div>*/}
+                <h3 className="tw-font-[600] tw-mb-3">STEP - 1</h3>
                 <h1>INTRODUCTION</h1>
                 <p>All that makes you, you!</p>
                 {formValues.isInfoEdit ?
-                    <Card variant="outlined" className="tw-w-[100%] tw-p-5 sm:tw-w-[80%]">
+                    <Card variant="outlined" className="tw-w-[100%] tw-p-5 sm:tw-w-[80%] ">
                         <div className="tw-gap-3 tw-flex tw-justify-between">
                             <TextField
                                 name="firstName"

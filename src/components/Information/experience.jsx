@@ -4,13 +4,33 @@ import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import {updateCvInfo} from "../../redux/cvInfoSlice.js";
 import {useDispatch} from "react-redux";
+import {validateExperienceField} from "../../composables/constants/rules.js";
+import {useState} from "react";
 
 const Experience = ({formValues , onFormValuesChange}) => {
     const dispatch = useDispatch();
+    const [errors, setErrors] = useState({});
     const toolbarOptions = [['bold', 'italic'], [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }]];
     const quillModules ={
         toolbar: toolbarOptions
     }
+
+    const validateAllExperienceEntries = () => {
+        const newErrors = {};
+        formValues.workExperience.forEach((experience, index) => {
+            Object.keys(experience).forEach((key) => {
+                if (key !== 'isEdit') {
+                    const error = validateExperienceField(key, experience[key], experience.isCurrent, experience.startDate, experience.endDate);
+                    if (error) {
+                        newErrors[index] = newErrors[index] || {};
+                        newErrors[index][key] = error;
+                    }
+                }
+            });
+        });
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     // for Experience
     const handleWorkExperienceChange = (index, e) => {
@@ -37,46 +57,74 @@ const Experience = ({formValues , onFormValuesChange}) => {
         }));
     };
     const addWorkExperience = () => {
-        onFormValuesChange((prevValues) => ({
-            ...prevValues,
-            workExperience: [
-                ...prevValues.workExperience,
-                {
-                    company: '',
-                    location: '',
-                    position: '',
-                    experience: '',
-                    startDate: '',
-                    endDate: '',
-                    isEdit: true,
-                    description: '',
-                }
-            ]
-        }));
+        if (validateAllExperienceEntries()) {
+            onFormValuesChange((prevValues) => ({
+                ...prevValues,
+                workExperience: [
+                    ...prevValues.workExperience,
+                    {
+                        company: '',
+                        location: '',
+                        position: '',
+                        experience: '',
+                        startDate: '',
+                        endDate: '',
+                        isEdit: true,
+                        description: '',
+                    }
+                ]
+            }));
+
+            setErrors((prevErrors) => {
+                const newErrors = { ...prevErrors };
+                const newIndex = formValues.workExperience.length; // index of the newly added entry
+                delete newErrors[newIndex];
+                return newErrors;
+            });
+        }
     };
     const handleDeleteWorkExperience = (index) => {
         onFormValuesChange((prevValues) => {
             const updatedWorkExperience = [...prevValues.workExperience];
             updatedWorkExperience.splice(index, 1);
-            return { ...prevValues, workExperience: updatedWorkExperience };
+            const updatedValues = {
+                ...prevValues, workExperience: updatedWorkExperience
+            }
+            dispatch(updateCvInfo(updatedValues));
+            return updatedValues ;
         });
     };
     const handleAddWorkExperience = (index) => {
-        onFormValuesChange((prevValues)=>{
-            const updatedWorkExperience = [...prevValues.workExperience];
-            updatedWorkExperience[index] = {
-                ...updatedWorkExperience[index],
-                isEdit: false,
-            };
-            const updatedValues = {
-                ...prevValues,
-                workExperience: updatedWorkExperience,
+        const newErrors = {};
+        const experience = formValues.workExperience[index];
+        Object.keys(experience).forEach((key) => {
+            if (key !== 'isEdit') {
+                const error = validateExperienceField(key, experience[key], experience.isCurrent, experience.startDate, experience.endDate);
+                if (error) {
+                    newErrors[index] = newErrors[index] || {};
+                    newErrors[index][key] = error;
+                }
             }
-            dispatch(updateCvInfo(updatedValues));
-            return updatedValues;
-        })
+        });
 
-    }
+        if (Object.keys(newErrors).length > 0) {
+            setErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
+        } else {
+            onFormValuesChange((prevValues) => {
+                const updatedExperience = [...prevValues.workExperience];
+                updatedExperience[index] = {
+                    ...updatedExperience[index],
+                    isEdit: false,
+                };
+                const updatedValues = {
+                    ...prevValues,
+                    workExperience: updatedExperience,
+                };
+                dispatch(updateCvInfo(updatedValues));
+                return updatedValues;
+            });
+        }
+    };
     const handleEditWorkExperience = (index) => {
         onFormValuesChange((prevValues)=>{
             const updatedWorkExperience = [...prevValues.workExperience];
@@ -87,9 +135,19 @@ const Experience = ({formValues , onFormValuesChange}) => {
             return {...prevValues, workExperience: updatedWorkExperience};
         })
     }
+
+    const handleWorkExperienceClick = (index, experience) => {
+        if (experience.isEdit && validateAllExperienceEntries()) {
+            handleAddWorkExperience(index);
+        } else {
+            handleDeleteWorkExperience(index);
+        }
+    };
+
     return (
         <div>
             <Card variant="outlined" className="tw-flex tw-items-center tw-flex-col tw-w-[100%] tw-p-5 tw-mt-3">
+                <h3 className="tw-font-[600] tw-mb-3">STEP - 4</h3>
                 <h1>WORK EXPERIENCE</h1>
                 <p>Flaunt that expertise!</p>
                 {formValues.workExperience.map((workExperience, index) => (
@@ -97,14 +155,18 @@ const Experience = ({formValues , onFormValuesChange}) => {
                         <Card key={index} variant="outlined" className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[80%] ">
                             <div className="tw-w-full tw-flex tw-justify-end">
                                 <Close className='tw-font-black pointer'
-                                       onClick={() => handleDeleteWorkExperience(index)}/>
+                                       onClick={() => handleWorkExperienceClick(index, workExperience)}/>
                             </div>
                             <div className="tw-gap-3 tw-flex tw-justify-between">
                                 <TextField name="company" label="Company Name" variant="standard"
                                            value={workExperience.company}
+                                           error={!!errors[index]?.company}
+                                           helperText={errors[index]?.company}
                                            onChange={(e) => handleWorkExperienceChange(index, e)} fullWidth/>
                                 <TextField name="location" label="Location" variant="standard"
                                            value={workExperience.location}
+                                           error={!!errors[index]?.location}
+                                           helperText={errors[index]?.location}
                                            onChange={(e) => handleWorkExperienceChange(index, e)}
                                            fullWidth/>
 
@@ -112,6 +174,8 @@ const Experience = ({formValues , onFormValuesChange}) => {
                             <div className="tw-gap-3  tw-flex tw-justify-between tw-mt-[20px]">
                                 <TextField name="position" label="Position" variant="standard"
                                            value={workExperience.position}
+                                           error={!!errors[index]?.position}
+                                           helperText={errors[index]?.position}
                                            onChange={(e) => handleWorkExperienceChange(index, e)} fullWidth/>
                             </div>
                             <div className="tw-mt-[20px]">
@@ -131,28 +195,20 @@ const Experience = ({formValues , onFormValuesChange}) => {
                                 <TextField name="startDate" label="Start Date" type="date" variant="standard"
                                            InputLabelProps={{shrink: true}}
                                            value={workExperience.startDate}
+                                           error={!!errors[index]?.startDate}
+                                           helperText={errors[index]?.startDate}
                                            onChange={(e) => handleWorkExperienceChange(index, e)} fullWidth/>
                                 <TextField name="endDate" label="End Date" type="date" variant="standard"
                                            disabled={workExperience.isCurrent}
                                            InputLabelProps={{shrink: true}}
+                                           error={!!errors[index]?.endDate}
+                                           helperText={errors[index]?.endDate}
                                            value={workExperience.endDate}
                                            onChange={(e) => handleWorkExperienceChange(index, e)} fullWidth/>
                             </div>
 
                             <div className="tw-gap-3 tw-flex tw-justify-between tw-mt-[20px] ">
                                 <div style={{height: '100px', width: '100%'}}>
-
-                                    {/*<TextField*/}
-                                    {/*    name="description"*/}
-                                    {/*    label="Relevant Description"*/}
-                                    {/*    multiline*/}
-                                    {/*    rows={3}*/}
-                                    {/*    variant="standard"*/}
-                                    {/*    value={workExperience.description}*/}
-                                    {/*    fullWidth*/}
-                                    {/*    onChange={(e) => handleWorkExperienceChange(index, e)}*/}
-                                    {/*/>*/}
-
                                     <ReactQuill className="tw-w-full" modules={quillModules} theme='snow'
                                                 value={workExperience.description}
                                                 onChange={(value) => handleWorkExperienceChangeQuill(index, 'description', value)}/>
