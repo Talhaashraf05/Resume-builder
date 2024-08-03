@@ -2,9 +2,29 @@ import {Button, Card, Checkbox, FormControlLabel, TextField} from "@mui/material
 import {Close, Delete, Edit} from "@mui/icons-material";
 import {deleteCvInfo, updateCvInfo} from "../../redux/cvInfoSlice.js";
 import {useDispatch} from "react-redux";
+import {useState} from "react";
+import {validateEducationField} from "../../composables/constants/rules.js";
 
 const Education = ({formValues , onFormValuesChange}) => {
     const dispatch = useDispatch();
+    const [errors, setErrors] = useState({});
+
+    const validateAllEducationEntries = () => {
+        const newErrors = {};
+        formValues.education.forEach((education, index) => {
+            Object.keys(education).forEach((key) => {
+                if (key !== 'isEdit') {
+                    const error = validateEducationField(key, education[key], education.isCurrent);
+                    if (error) {
+                        newErrors[index] = newErrors[index] || {};
+                        newErrors[index][key] = error;
+                    }
+                }
+            });
+        });
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     // for Education
     const handleEducationChange = (index, e) => {
@@ -20,6 +40,7 @@ const Education = ({formValues , onFormValuesChange}) => {
         }));
     };
     const addEducation = () => {
+        if (validateAllEducationEntries()) {
         onFormValuesChange((prevValues) => ({
             ...prevValues,
             education: [
@@ -31,10 +52,20 @@ const Education = ({formValues , onFormValuesChange}) => {
                     startDate: '',
                     endDate: '',
                     isEdit: true,
-                    description: '',
+                    isCurrent: false,
+                    gpa: '',
+                    location : '',
                 }
             ]
         }));
+
+        setErrors((prevErrors) => {
+            const newErrors = { ...prevErrors };
+            const newIndex = formValues.education.length;
+            delete newErrors[newIndex];
+            return newErrors;
+        });
+        }
     };
     const handleDeleteEducation = (index) => {
         onFormValuesChange((prevValues) => {
@@ -44,25 +75,25 @@ const Education = ({formValues , onFormValuesChange}) => {
                 ...prevValues,
                 education: updatedEducation
             }
-            dispatch(deleteCvInfo(updatedValues));
+            dispatch(updateCvInfo(updatedValues));
             return updatedValues;
         });
     };
-    const handleAddEducation = (index) => {
-        onFormValuesChange((prevValues)=>{
-            const updatedEducation = [...prevValues.education];
-            updatedEducation[index] = {
-                ...updatedEducation[index],
-                isEdit: false,
-            };
-            const updatedValues = {
-                ...prevValues,
-                education: updatedEducation,
-            };
-            dispatch(updateCvInfo(updatedValues));
-            return updatedValues;
-        })
-    }
+    // const handleAddEducation = (index) => {
+    //     onFormValuesChange((prevValues)=>{
+    //         const updatedEducation = [...prevValues.education];
+    //         updatedEducation[index] = {
+    //             ...updatedEducation[index],
+    //             isEdit: false,
+    //         };
+    //         const updatedValues = {
+    //             ...prevValues,
+    //             education: updatedEducation,
+    //         };
+    //         dispatch(updateCvInfo(updatedValues));
+    //         return updatedValues;
+    //     })
+    // }
     const handleEditEducation = (index) => {
         onFormValuesChange((prevValues)=>{
             const updatedEducation = [...prevValues.education];
@@ -73,9 +104,51 @@ const Education = ({formValues , onFormValuesChange}) => {
             return {...prevValues, education: updatedEducation};
         })
     }
+
+    const handleAddEducation = (index) => {
+        const newErrors = {};
+        const education = formValues.education[index];
+        Object.keys(education).forEach((key) => {
+            if (key !== 'isEdit') {
+                const error = validateEducationField(key, education[key], education.isCurrent);
+                if (error) {
+                    newErrors[index] = newErrors[index] || {};
+                    newErrors[index][key] = error;
+                }
+            }
+        });
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
+        } else {
+            onFormValuesChange((prevValues) => {
+                const updatedEducation = [...prevValues.education];
+                updatedEducation[index] = {
+                    ...updatedEducation[index],
+                    isEdit: false,
+                };
+                const updatedValues = {
+                    ...prevValues,
+                    education: updatedEducation,
+                };
+                dispatch(updateCvInfo(updatedValues));
+                return updatedValues;
+            });
+        }
+    };
+
+    const handleEducationClick = (index, education) => {
+        if (education.isEdit && validateAllEducationEntries()) {
+            handleAddEducation(index);
+        } else {
+            handleDeleteEducation(index);
+        }
+    };
+
     return (
         <div>
             <Card variant="outlined" className="tw-flex tw-items-center tw-flex-col tw-w-[100%] tw-p-5 tw-mt-3">
+                <h3 className="tw-font-[600] tw-mb-3">STEP - 3</h3>
                 <h1>EDUCATION</h1>
                 <p>Show off them degrees!</p>
                 {formValues.education.map((education, index) => (
@@ -83,18 +156,24 @@ const Education = ({formValues , onFormValuesChange}) => {
                         <Card key={index} variant="outlined" className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[80%] ">
                             <div className="tw-w-full tw-flex tw-justify-end">
                                 <Close className='tw-font-black pointer'
-                                       onClick={() => handleDeleteEducation(index)}/>
+                                       onClick={() => handleEducationClick(index, education)}/>
                             </div>
                             <div className="tw-gap-3 tw-flex tw-justify-between">
                                 <TextField name="school" label="School Name" variant="standard"
                                            value={education.school}
+                                           error={!!errors[index]?.school}
+                                           helperText={errors[index]?.school}
                                            onChange={(e) => handleEducationChange(index, e)} fullWidth/>
                                 <TextField name="major" label="Major" variant="standard"
                                            value={education.major}
+                                           error={!!errors[index]?.major}
+                                           helperText={errors[index]?.major}
                                            onChange={(e) => handleEducationChange(index, e)}
                                            fullWidth/>
                                 <TextField name="degreeType" label="Degree Type" variant="standard"
                                            value={education.degreeType}
+                                           error={!!errors[index]?.degreeType}
+                                           helperText={errors[index]?.degreeType}
                                            onChange={(e) => handleEducationChange(index, e)} fullWidth/>
                             </div>
                             <div className="tw-mt-[20px]">
@@ -113,11 +192,14 @@ const Education = ({formValues , onFormValuesChange}) => {
                             <div className="tw-gap-3  tw-flex tw-justify-between tw-mt-[20px]">
                                 <TextField name="startDate" label="Start Date" variant="standard" type="date"
                                            InputLabelProps={{shrink: true}}
-
                                            value={education.startDate}
+                                           error={!!errors[index]?.startDate}
+                                           helperText={errors[index]?.startDate}
                                            onChange={(e) => handleEducationChange(index, e)} fullWidth/>
                                 <TextField name="endDate" label="End Date" variant="standard" type="date"
                                            disabled={education.isCurrent}
+                                           error={!!errors[index]?.endDate}
+                                           helperText={errors[index]?.endDate}
                                            InputLabelProps={{shrink: true}}
                                            value={education.endDate}
                                            onChange={(e) => handleEducationChange(index, e)} fullWidth/>
@@ -125,10 +207,12 @@ const Education = ({formValues , onFormValuesChange}) => {
                             <div className="tw-gap-3 tw-flex tw-justify-between tw-mt-[20px]">
                                 <TextField
                                     name="gpa"
-                                    label="Current GPA"
+                                    label="Current GPA / Marks"
                                     variant="standard"
                                     fullWidth
                                     value={education.gpa}
+                                    error={!!errors[index]?.gpa}
+                                    helperText={errors[index]?.gpa}
                                     onChange={(e) => handleEducationChange(index, e)}
                                 />
                                 <TextField
@@ -137,6 +221,8 @@ const Education = ({formValues , onFormValuesChange}) => {
                                     variant="standard"
                                     fullWidth
                                     value={education.location}
+                                    error={!!errors[index]?.location}
+                                    helperText={errors[index]?.location}
                                     onChange={(e) => handleEducationChange(index, e)}
                                 />
                             </div>

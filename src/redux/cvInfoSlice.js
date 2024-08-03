@@ -34,7 +34,6 @@ export const cvInfoSlice = createSlice({
                         gpa: '',
                         location : '',
                     },
-
                 ],
                 workExperience: [
                     {
@@ -78,7 +77,6 @@ export const cvInfoSlice = createSlice({
             state.cvInfo.push(action.payload);
         },
         deleteCvInfo: (state, action) => {
-            console.log(action.payload);
             state.cvInfo = state.cvInfo.filter((cvInfo) => cvInfo.id !== action.payload.id);
         },
         updateCvInfo (state, action) {

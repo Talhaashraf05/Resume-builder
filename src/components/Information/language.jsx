@@ -2,9 +2,27 @@ import {useDispatch} from "react-redux";
 import {Button, Card, Chip, MenuItem, Select, TextField} from "@mui/material";
 import {Close, Delete, Edit} from "@mui/icons-material";
 import {updateCvInfo} from "../../redux/cvInfoSlice.js";
+import {useState} from "react";
+import {validateLanguageField} from "../../composables/constants/rules.js";
 
 const Language = ({formValues , onFormValuesChange}) => {
     const dispatch = useDispatch();
+    const [errors, setErrors] = useState({}); // State to store validation errors
+
+    const validateAllLanguageEntries = () => {
+        const newErrors = {};
+        formValues.languages.forEach((language, index) => {
+            Object.keys(language).forEach((key) => {
+                const error = validateLanguageField(key, language[key]);
+                if (error) {
+                    newErrors[index] = newErrors[index] || {};
+                    newErrors[index][key] = error;
+                }
+            });
+        });
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleLanguageChange = (index, e) => {
         console.log(e.target);
@@ -21,42 +39,71 @@ const Language = ({formValues , onFormValuesChange}) => {
     }
 
     const addLanguage = () => {
-        onFormValuesChange((prevValues) => ({
-            ...prevValues,
-            languages: [
-                ...prevValues.languages,
-                {
-                    language: '',
-                    proficiency: '',
-                    isEdit: true,
-                }
-            ]
-        }));
+        if(validateAllLanguageEntries()) {
+
+            onFormValuesChange((prevValues) => ({
+                ...prevValues,
+                languages: [
+                    ...prevValues.languages,
+                    {
+                        language: '',
+                        proficiency: '',
+                        isEdit: true,
+                    }
+                ]
+            }));
+            setErrors((prevErrors) => {
+                const newErrors = { ...prevErrors };
+                const newIndex = formValues.languages.length; // index of the newly added entry
+                delete newErrors[newIndex];
+                return newErrors;
+            });
+        }
     }
 
     const handleDeleteLanguage = (index) => {
         onFormValuesChange((prevValues) => {
             const updatedLanguages = [...prevValues.languages];
             updatedLanguages.splice(index, 1);
-            return { ...prevValues, languages: updatedLanguages };
-        });
-    }
-
-    const handleAddLanguage = (index) => {
-        onFormValuesChange((prevValues) => {
-            const updatedLanguages = [...prevValues.languages];
-            updatedLanguages[index] = {
-                ...updatedLanguages[index],
-                isEdit: false,
-            };
             const updatedValues = {
                 ...prevValues,
                 languages: updatedLanguages,
             }
             dispatch(updateCvInfo(updatedValues));
             return updatedValues;
-        })
+        });
     }
+
+    const handleAddLanguage = (index) => {
+        const newErrors = {};
+        const language = formValues.languages[index];
+        Object.keys(language).forEach((key) => {
+            const error = validateLanguageField(key, language[key]);
+            if (error) {
+                newErrors[index] = newErrors[index] || {};
+                newErrors[index][key] = error;
+            }
+        });
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors((prevErrors) => ({ ...prevErrors, ...newErrors }));
+        } else {
+            onFormValuesChange((prevValues) => {
+                const updatedLanguages = [...prevValues.languages];
+                updatedLanguages[index] = {
+                    ...updatedLanguages[index],
+                    isEdit: false,
+                };
+                const updatedValues = {
+                    ...prevValues,
+                    languages: updatedLanguages,
+                };
+                dispatch(updateCvInfo(updatedValues));
+                return updatedValues;
+            });
+        }
+    };
+
 
     const handleEditLanguage = (index) => {
         onFormValuesChange((prevValues) => {
@@ -68,10 +115,18 @@ const Language = ({formValues , onFormValuesChange}) => {
             return { ...prevValues, languages: updatedLanguages };
         });
     }
+    const handleLanguageClick = (index, language) => {
+        if (language.isEdit && validateAllLanguageEntries()) {
+            handleAddLanguage(index);
+        } else {
+            handleDeleteLanguage(index);
+        }
+    };
 
     return (
         <div>
             <Card variant="outlined" className="tw-flex tw-items-center tw-flex-col tw-w-[100%] tw-p-5 tw-mt-3">
+                <h3 className="tw-font-[600] tw-mb-3">STEP - 6</h3>
                 <h1>Languages</h1>
                 <p>Showcase your linguistic abilities!</p>
                 {formValues.languages.map((language, index) => (
@@ -79,17 +134,14 @@ const Language = ({formValues , onFormValuesChange}) => {
                         <Card key={index} variant="outlined" className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[80%] ">
                             <div className="tw-w-full tw-flex tw-justify-end">
                                 <Close className='tw-font-black pointer'
-                                       onClick={() => handleDeleteLanguage(index)}/>
+                                       onClick={() => handleLanguageClick(index, language)}/>
                             </div>
                             <div className="tw-gap-5 tw-flex tw-flex-row">
                                 <TextField name="language" label="Languages" variant="standard"
                                            value={language.language}
+                                           error={!!errors[index]?.language}
+                                           helperText={errors[index]?.language}
                                            onChange={(e) => handleLanguageChange(index, e)} fullWidth/>
-                                {/*<TextField  label="Proficiency" variant="standard"*/}
-                                {/*           value={language.proficiency}*/}
-                                {/*           onChange={(e) => handleLanguageChange(index, e)}*/}
-                                {/*           fullWidth*/}
-                                {/*/>*/}
                                 <Select
                                     name="proficiency"
                                     labelId="demo-simple-select-label"
@@ -98,6 +150,7 @@ const Language = ({formValues , onFormValuesChange}) => {
                                     fullWidth
                                     id="proficiency"
                                     value={language.proficiency}
+                                    error={!!errors[index]?.proficiency}
                                     label="Proficiency"
                                     onChange={(e) => handleLanguageChange(index, e)}
                                 >
