@@ -20,7 +20,7 @@ const Experience = ({formValues , onFormValuesChange}) => {
         formValues.workExperience.forEach((experience, index) => {
             Object.keys(experience).forEach((key) => {
                 if (key !== 'isEdit') {
-                    const error = validateExperienceField(key, experience[key], experience.isCurrent, experience.startDate, experience.endDate);
+                    const error = validateExperienceField(key, experience[key], experience.isCurrent, experience.startDate);
                     if (error) {
                         newErrors[index] = newErrors[index] || {};
                         newErrors[index][key] = error;

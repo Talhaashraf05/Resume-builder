@@ -14,7 +14,7 @@ const Education = ({formValues , onFormValuesChange}) => {
         formValues.education.forEach((education, index) => {
             Object.keys(education).forEach((key) => {
                 if (key !== 'isEdit') {
-                    const error = validateEducationField(key, education[key], education.isCurrent);
+                    const error = validateEducationField(key, education[key], education.isCurrent, education.startDate);
                     if (error) {
                         newErrors[index] = newErrors[index] || {};
                         newErrors[index][key] = error;
