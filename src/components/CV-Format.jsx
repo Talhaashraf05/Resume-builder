@@ -115,7 +115,7 @@ const CVFormat = () => {
                                             <div key={index} className="tw-mb-3">
                                                 <h3 className="tw-font-bold">{workExperience.company} | {workExperience.position}</h3>
                                                 <p className="!tw-text-[14px]">{workExperience.startDate} - {workExperience.endDate} | {workExperience.location}</p>
-                                                <p>{workExperience.description}</p>
+                                                {/*<p>{workExperience.description}</p>*/}
                                                 <div  dangerouslySetInnerHTML={{__html: workExperience.description}}/>
                                             </div>
                                         ))
@@ -132,7 +132,7 @@ const CVFormat = () => {
                                         cvInfo.achievements.map((achievement, index) => (
                                             <div key={index} className="tw-mb-3">
                                                 <h3 className="tw-font-bold">{achievement.title} | {achievement.date}</h3>
-                                                <p className="!tw-text-[14px]">{achievement.description}</p>
+                                                <div dangerouslySetInnerHTML={{__html: achievement.description}}/>
                                             </div>
                                         ))
                                     }

@@ -41,7 +41,7 @@ export const validateSocialField = (name, value) => {
 };
 
 
-export const validateEducationField = (name, value, isCurrent) => {
+export const validateEducationField = (name, value, isCurrent, startDate) => {
   switch (name) {
     case 'school':
     case 'major':
@@ -54,7 +54,7 @@ export const validateEducationField = (name, value, isCurrent) => {
     case 'endDate':
       if (!isCurrent) {
       if (!value) return 'This field is required.';
-      if (new Date(value) < new Date()) {
+      if (new Date(value) < new Date(startDate)) {
         return 'End date must be after the start date.';
       }
       }
