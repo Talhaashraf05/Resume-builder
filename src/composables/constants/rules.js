@@ -1,5 +1,4 @@
-
-export  const introValidation = (name, value, isNumberNeeded) => {
+export const introValidation = (name, value, isNumberNeeded) => {
   let error = '';
   switch (name) {
     case 'firstName':
@@ -10,10 +9,12 @@ export  const introValidation = (name, value, isNumberNeeded) => {
       if (!/\S+@\S+\.\S+/.test(value)) error = 'Invalid email format.';
       break;
     case 'website':
-      if (!/^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(value)) error = 'Invalid URL.';
+      if (!/^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(value))
+        error = 'Invalid URL.';
       break;
     case 'number':
-      if (isNumberNeeded && !/^\d+$/.test(value)) error = 'Number must be digits only.';
+      if (isNumberNeeded && !/^\d+$/.test(value))
+        error = 'Number must be digits only.';
       break;
     case 'aboutMe':
       if (value.trim().length <= 10) error = 'Must be more than 10 characters.';
@@ -24,7 +25,6 @@ export  const introValidation = (name, value, isNumberNeeded) => {
   return error;
 };
 
-
 export const validateSocialField = (name, value) => {
   let error = '';
   switch (name) {
@@ -32,7 +32,12 @@ export const validateSocialField = (name, value) => {
       if (value.trim() === '') error = 'Platform is required.';
       break;
     case 'link':
-      if (!/^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/\S*)?$/.test(value)) error = 'Invalid URL.';
+      if (
+        !/^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/\S*)?$/.test(
+          value,
+        )
+      )
+        error = 'Invalid URL.';
       break;
     default:
       break;
@@ -40,23 +45,22 @@ export const validateSocialField = (name, value) => {
   return error;
 };
 
-
 export const validateEducationField = (name, value, isCurrent, startDate) => {
   switch (name) {
     case 'school':
     case 'major':
     case 'degreeType':
     case 'gpa':
-   case 'location':
+    case 'location':
     case 'startDate':
       if (value.trim() === '') return 'This field is required.';
       break;
     case 'endDate':
       if (!isCurrent) {
-      if (!value) return 'This field is required.';
-      if (new Date(value) < new Date(startDate)) {
-        return 'End date must be after the start date.';
-      }
+        if (!value) return 'This field is required.';
+        if (new Date(value) < new Date(startDate)) {
+          return 'End date must be after the start date.';
+        }
       }
       break;
     default:
@@ -74,7 +78,7 @@ export const validateExperienceField = (name, value, isCurrent, startDate) => {
       if (value.trim() === '') return 'This field is required.';
       break;
     case 'endDate':
-      if(!isCurrent){
+      if (!isCurrent) {
         if (!value) return 'This field is required.';
         if (name === 'endDate' && new Date(value) < new Date(startDate)) {
           return 'End date must be after the start date.';
@@ -86,7 +90,6 @@ export const validateExperienceField = (name, value, isCurrent, startDate) => {
   }
   return '';
 };
-
 
 export const validateSkillField = (name, value) => {
   switch (name) {
@@ -132,4 +135,3 @@ export const validateAchievementField = (name, value) => {
   }
   return '';
 };
-

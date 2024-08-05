@@ -1,9 +1,9 @@
-import {configureStore} from "@reduxjs/toolkit";
-import cvInfoReducer from "./cvInfoSlice.js";
+import { configureStore } from '@reduxjs/toolkit';
+import cvInfoReducer from './cvInfoSlice.js';
 
 export default configureStore({
-    reducer:{
-        cvInfo: cvInfoReducer,
-        // Add the reducer here
-    }
-})
+  reducer: {
+    cvInfo: cvInfoReducer,
+    // Add the reducer here
+  },
+});
