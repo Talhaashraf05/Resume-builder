@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { validateExperienceField } from '../../composables/constants/rules.js';
 import { useState } from 'react';
 
-const Experience = ({ formValues, onFormValuesChange }) => {
+const Experience = ({ formValues, onFormValuesChange, reportValidation }) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const toolbarOptions = [
@@ -142,6 +142,8 @@ const Experience = ({ formValues, onFormValuesChange }) => {
           workExperience: updatedExperience,
         };
         dispatch(updateCvInfo(updatedValues));
+        const isValid = validateAllExperienceEntries(formValues);
+        reportValidation(isValid);
         return updatedValues;
       });
     }
@@ -173,6 +175,9 @@ const Experience = ({ formValues, onFormValuesChange }) => {
       >
         <h3 className="tw-font-[600] tw-mb-3">STEP - 4</h3>
         <h1>WORK EXPERIENCE</h1>
+        <p className=" tw-text-[10px] tw-mt-[-7px]">
+          recommended to add atleast two work experiences
+        </p>
         <p>Flaunt that expertise!</p>
         {formValues.workExperience.map((workExperience, index) =>
           workExperience.isEdit ? (

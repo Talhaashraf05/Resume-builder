@@ -5,7 +5,7 @@ import { updateCvInfo } from '../../redux/cvInfoSlice.js';
 import { useState } from 'react';
 import { validateLanguageField } from '../../composables/constants/rules.js';
 
-const Language = ({ formValues, onFormValuesChange }) => {
+const Language = ({ formValues, onFormValuesChange, reportValidation }) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({}); // State to store validation errors
 
@@ -98,6 +98,8 @@ const Language = ({ formValues, onFormValuesChange }) => {
           languages: updatedLanguages,
         };
         dispatch(updateCvInfo(updatedValues));
+        const isValid = validateAllLanguageEntries(formValues);
+        reportValidation(isValid);
         return updatedValues;
       });
     }

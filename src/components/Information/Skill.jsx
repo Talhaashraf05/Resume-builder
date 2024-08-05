@@ -5,7 +5,7 @@ import { updateCvInfo } from '../../redux/cvInfoSlice.js';
 import { validateSkillField } from '../../composables/constants/rules.js';
 import { useState } from 'react';
 
-const Skill = ({ formValues, onFormValuesChange }) => {
+const Skill = ({ formValues, onFormValuesChange, reportValidation }) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({}); // State to store validation errors
 
@@ -96,6 +96,8 @@ const Skill = ({ formValues, onFormValuesChange }) => {
           skills: updatedSkills,
         };
         dispatch(updateCvInfo(updatedValues));
+        const isValid = validateAllSkillsEntries(formValues);
+        reportValidation(isValid);
         return updatedValues;
       });
     }

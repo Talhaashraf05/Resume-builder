@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { validateSocialField } from '../../composables/constants/rules.js';
 
-const Social = ({ formValues, onFormValuesChange }) => {
+const Social = ({ formValues, onFormValuesChange, reportValidation }) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
 
@@ -34,7 +34,6 @@ const Social = ({ formValues, onFormValuesChange }) => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
   // for Social
   const handleSocialChange = (index, e) => {
     const { name, value, type, checked } = e.target;
@@ -81,7 +80,6 @@ const Social = ({ formValues, onFormValuesChange }) => {
       return updatedValues;
     });
   };
-
   const handleAddSocial = (index) => {
     const newErrors = {};
     const social = formValues.social[index];
@@ -109,11 +107,13 @@ const Social = ({ formValues, onFormValuesChange }) => {
           social: updatedSocial,
         };
         dispatch(updateCvInfo(updatedValues));
+        //for parent side
+        const isValid = validateAllSocialLinks(formValues);
+        reportValidation(isValid);
         return updatedValues;
       });
     }
   };
-
   const handleEditSocial = (index) => {
     onFormValuesChange((prevValues) => {
       const updatedSocial = [...prevValues.social];
@@ -124,7 +124,6 @@ const Social = ({ formValues, onFormValuesChange }) => {
       return { ...prevValues, social: updatedSocial };
     });
   };
-
   const handleSocialClick = (index, social) => {
     if (social.isEdit && validateAllSocialLinks()) {
       handleAddSocial(index);
@@ -140,7 +139,10 @@ const Social = ({ formValues, onFormValuesChange }) => {
         className="tw-flex tw-items-center tw-flex-col tw-w-[100%] tw-p-5 tw-mt-3"
       >
         <h3 className="tw-font-[600] tw-mb-3">STEP - 2</h3>
-        <h1>SOCIAL</h1>
+        <h1 className="">SOCIAL</h1>
+        <p className=" tw-text-[10px] tw-mt-[-7px]">
+          recommended to add two social accounts
+        </p>
         <p>Give online connectivity a chance!</p>
         {formValues.social.map((social, index) =>
           social.isEdit ? (

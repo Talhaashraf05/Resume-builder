@@ -33,11 +33,11 @@ const Navbar = () => {
               <div className="tw-md:ml-auto">
                 <div className="tw-flex tw-space-x-2">
                   <NavLink to="/" className={linkClass}>
-                    Home 😶‍🌫️
+                    Home 😎
                   </NavLink>
-                  <NavLink to="/cv" className={linkClass}>
-                    CV PAGE
-                  </NavLink>
+                  {/*<NavLink to="/cv" className={linkClass}>*/}
+                  {/*  CV PAGE*/}
+                  {/*</NavLink>*/}
                 </div>
               </div>
             </div>

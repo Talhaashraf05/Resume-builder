@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { validateEducationField } from '../../composables/constants/rules.js';
 
-const Education = ({ formValues, onFormValuesChange }) => {
+const Education = ({ formValues, onFormValuesChange, reportValidation }) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
 
@@ -148,6 +148,9 @@ const Education = ({ formValues, onFormValuesChange }) => {
           education: updatedEducation,
         };
         dispatch(updateCvInfo(updatedValues));
+        //for parent side
+        const isValid = validateAllEducationEntries(formValues);
+        reportValidation(isValid);
         return updatedValues;
       });
     }

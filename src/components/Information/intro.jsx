@@ -11,10 +11,26 @@ import { updateCvInfo } from '../../redux/cvInfoSlice.js';
 import { useDispatch } from 'react-redux';
 import { introValidation } from '../../composables/constants/rules.js';
 
-const Intro = ({ formValues, onFormValuesChange }) => {
+const Intro = ({ formValues, onFormValuesChange, reportValidation }) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
+  // useEffect(() => {
+  //   const isValid = validateIntroValues(formValues);
+  //   reportValidation(isValid);
+  //   console.log('intro', isValid);
+  // }, [formValues]);
 
+  const validateIntroValues = (values) => {
+    const newErrors = {};
+    Object.keys(values).forEach((key) => {
+      const error = introValidation(key, values[key], values.isNumberNeeded);
+      if (error) {
+        newErrors[key] = error;
+      }
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
   const handleInfoChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === 'checkbox' ? checked : value;
@@ -58,6 +74,9 @@ const Intro = ({ formValues, onFormValuesChange }) => {
           isInfoEdit: false,
         };
         dispatch(updateCvInfo(updatedValues));
+        //for parent side
+        const isValid = validateIntroValues(formValues);
+        reportValidation(isValid);
         return updatedValues;
       });
     }
