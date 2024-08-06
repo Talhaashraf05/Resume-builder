@@ -1,15 +1,13 @@
-import Banner from "../components/Banner.jsx";
-import Home from "../components/Home.jsx";
-
+import Banner from '../components/Banner.jsx';
+import Home from '../components/Home.jsx';
 
 const HomePage = () => {
-
-    return (
-        <>
-            <Banner />
-            <Home />
-        </>
-    );
-}
+  return (
+    <>
+      <Banner />
+      <Home />
+    </>
+  );
+};
 
 export default HomePage;
