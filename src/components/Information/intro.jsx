@@ -97,7 +97,7 @@ const Intro = ({ formValues, onFormValuesChange, reportValidation }) => {
         {formValues.isInfoEdit ? (
           <Card
             variant="outlined"
-            className="tw-w-[100%] tw-p-5 sm:tw-w-[80%] "
+            className="tw-w-[100%] tw-p-5 sm:tw-w-[90%] md:tw-w-[80%]"
           >
             <div className="tw-gap-3 tw-flex tw-justify-between">
               <TextField
@@ -206,8 +206,7 @@ const Intro = ({ formValues, onFormValuesChange, reportValidation }) => {
               <div>
                 <Edit className="pointer" onClick={handleEditInfo} />
                 <Delete
-                  className="pointer"
-                  color={'warning'}
+                  className="pointer tw-text-[#FF0000]"
                   onClick={handleSaveInfo}
                 />
               </div>
@@ -241,7 +240,7 @@ const Intro = ({ formValues, onFormValuesChange, reportValidation }) => {
         <div className="tw-mt-[20px]">
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             fullWidth
             onClick={handleSaveInfo}
           >

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import '././css/components.scss';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Intro from './Information/intro.jsx';
 import Social from './Information/social.jsx';
 import Education from './Information/education.jsx';
@@ -10,40 +10,30 @@ import Language from './Information/language.jsx';
 import Achievements from './Information/achievements.jsx';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { updateAllInfoValidate } from '../redux/cvInfoSlice.js';
 
 const Home = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const cvInfo = useSelector((state) => state.cvInfo.cvInfo[0]);
+  const cvValidation = useSelector((state) => state.cvInfo.allInfoValidate);
   const [formValues, setFormValues] = useState(cvInfo);
   const handleFormValuesChange = (newValues) => {
     setFormValues(newValues);
   };
 
-  const [validationStatus, setValidationStatus] = useState({
-    intro: false,
-    social: false,
-    education: false,
-    experience: false,
-    skill: false,
-    language: false,
-    achievements: false,
-  });
-
+  // const [validationStatus, setValidationStatus] = useState(cvValidation);
   const handleValidationChange = (section, isValid) => {
-    setValidationStatus((prevStatus) => ({
-      ...prevStatus,
-      [section]: isValid,
-    }));
-    console.log(validationStatus);
+    // setValidationStatus((prevStatus) => ({
+    //   ...prevStatus,
+    //   [section]: isValid,
+    // }));
+    dispatch(updateAllInfoValidate({ section, isValid }));
   };
 
   useEffect(() => {
     setFormValues(cvInfo);
   }, [cvInfo]);
-
-  const isFormValid = Object.values(validationStatus).every(Boolean);
-  console.log('for button intro', validationStatus);
-  console.log('for button', isFormValid);
 
   return (
     <div className="tw-mt-3 tw-flex tw-justify-center tw-flex-col tw-items-center">
@@ -89,7 +79,7 @@ const Home = () => {
           formValues={formValues}
           onFormValuesChange={handleFormValuesChange}
           reportValidation={(isValid) =>
-            handleValidationChange('experience', isValid)
+            handleValidationChange('skill', isValid)
           }
         />
 
@@ -98,7 +88,7 @@ const Home = () => {
           formValues={formValues}
           onFormValuesChange={handleFormValuesChange}
           reportValidation={(isValid) =>
-            handleValidationChange('experience', isValid)
+            handleValidationChange('language', isValid)
           }
         />
 
@@ -106,9 +96,6 @@ const Home = () => {
         <Achievements
           formValues={formValues}
           onFormValuesChange={handleFormValuesChange}
-          reportValidation={(isValid) =>
-            handleValidationChange('experience', isValid)
-          }
         />
       </div>
 
@@ -118,7 +105,7 @@ const Home = () => {
           color="secondary"
           fullWidth
           onClick={() => navigate('/cv')}
-          disabled={!isFormValid} // Enable/Disable button based on validation status
+          disabled={!Object.values(cvValidation).every((isValid) => isValid)}
         >
           ENJOY YOUR CV
         </Button>

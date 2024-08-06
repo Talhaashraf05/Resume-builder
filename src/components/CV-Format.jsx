@@ -13,7 +13,6 @@ const CVFormat = () => {
   const linkedInProfile = cvInfo.social.find(
     (social) => social.platform === 'LINKEDIN',
   );
-  console.log(linkedInProfile);
 
   return (
     <Card>
@@ -34,7 +33,7 @@ const CVFormat = () => {
 
         <div className="tw-flex tw-flex-row">
           <div className=" tw-w-[50%] tw-pr-3 tw-mr-3">
-            <section className="tw-mb-6">
+            <section className="tw-mb-3">
               <h2 className="tw-text-2xl tw-font-semibold tw-border-b tw-pb-2">
                 Contact
               </h2>
@@ -54,7 +53,7 @@ const CVFormat = () => {
               </div>
             </section>
 
-            <section className="tw-mb-6">
+            <section className="tw-mb-3">
               <h2 className="tw-text-2xl tw-font-semibold tw-border-b tw-pb-2">
                 Education
               </h2>
@@ -74,7 +73,7 @@ const CVFormat = () => {
               </div>
             </section>
 
-            <section className="tw-mb-6">
+            <section className="tw-mb-3">
               <h2 className="tw-text-2xl tw-font-semibold tw-border-b tw-pb-2">
                 Language
               </h2>
@@ -91,7 +90,7 @@ const CVFormat = () => {
               </ul>
             </section>
 
-            <section className="tw-mb-6">
+            <section className="tw-mb-3">
               <h2 className="tw-text-2xl tw-font-semibold tw-border-b tw-pb-2">
                 Skills
               </h2>
@@ -104,6 +103,20 @@ const CVFormat = () => {
                         <li key={idx}>{skillItem.trim()}</li>
                       ))}
                     </ul>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="tw-mb-3">
+              <h2 className="tw-text-2xl tw-font-semibold tw-border-b tw-pb-2">
+                Social
+              </h2>
+              <div className="tw-mt-2">
+                {cvInfo.social.map((social, index) => (
+                  <div className="tw-mb-3" key={index}>
+                    <h2 className=" tw-font-[500]">{social.platform}</h2>
+                    <a href={social.link}>{social.link} </a>
                   </div>
                 ))}
               </div>
@@ -147,33 +160,35 @@ const CVFormat = () => {
               </section>
             </div>
 
-            <div>
-              <section className="tw-mb-6">
-                <h2 className="tw-text-2xl tw-font-semibold tw-border-b tw-pb-2">
-                  Awards
-                </h2>
-                <div className="tw-mt-2">
-                  {cvInfo.achievements.map((achievement, index) => (
-                    <div key={index} className="tw-mb-3">
-                      <h3 className="tw-font-bold">
-                        {achievement.title} | {achievement.date}
-                      </h3>
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: achievement.description,
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </section>
-            </div>
+            {cvInfo.achievements && cvInfo.achievements.length > 0 && (
+              <div>
+                <section className="tw-mb-6">
+                  <h2 className="tw-text-2xl tw-font-semibold tw-border-b tw-pb-2">
+                    Awards
+                  </h2>
+                  <div className="tw-mt-2">
+                    {cvInfo.achievements.map((achievement, index) => (
+                      <div key={index} className="tw-mb-3">
+                        <h3 className="tw-font-bold">
+                          {achievement.title} | {achievement.date}
+                        </h3>
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: achievement.description,
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       <div className="tw-mt-5 tw-mb-5 tw-flex tw-justify-center">
-        <Button onClick={handlePrint} variant="contained" color="secondary">
+        <Button onClick={handlePrint} variant="contained" color="primary">
           Download as PDF
         </Button>
       </div>

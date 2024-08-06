@@ -1,4 +1,5 @@
 export enum SocialLinksEnum {
+  LINKEDIN = 'linkedin',
   FACEBOOK = 'facebook',
   TWITTER = 'twitter',
   INSTAGRAM = 'instagram',

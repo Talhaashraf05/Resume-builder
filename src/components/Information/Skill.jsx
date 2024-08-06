@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { updateCvInfo } from '../../redux/cvInfoSlice.js';
 import { validateSkillField } from '../../composables/constants/rules.js';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Skill = ({ formValues, onFormValuesChange, reportValidation }) => {
   const dispatch = useDispatch();
@@ -38,6 +39,11 @@ const Skill = ({ formValues, onFormValuesChange, reportValidation }) => {
     }));
   };
   const addSkill = () => {
+    if (formValues.skills.length >= 4) {
+      toast('You can only add 4 skills ');
+      return;
+    }
+
     if (validateAllSkillsEntries()) {
       onFormValuesChange((prevValues) => ({
         ...prevValues,
@@ -134,7 +140,7 @@ const Skill = ({ formValues, onFormValuesChange, reportValidation }) => {
             <Card
               key={index}
               variant="outlined"
-              className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[80%] "
+              className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[90%] md:tw-w-[80%]"
             >
               <div className="tw-w-full tw-flex tw-justify-end">
                 <Close
@@ -167,7 +173,7 @@ const Skill = ({ formValues, onFormValuesChange, reportValidation }) => {
               <div className="tw-mt-5 tw-flex tw-justify-end">
                 <Button
                   variant="contained"
-                  color="secondary"
+                  color="primary"
                   onClick={() => handleAddSkill(index)}
                 >
                   Add
@@ -189,8 +195,7 @@ const Skill = ({ formValues, onFormValuesChange, reportValidation }) => {
                     onClick={() => handleEditSkill(index)}
                   />
                   <Delete
-                    className="pointer"
-                    color={'warning'}
+                    className="pointer tw-text-[#FF0000]"
                     onClick={() => handleDeleteSkill(index)}
                   />
                 </div>
@@ -214,7 +219,7 @@ const Skill = ({ formValues, onFormValuesChange, reportValidation }) => {
         <div className="tw-mt-[20px]">
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             fullWidth
             onClick={addSkill}
           >

@@ -13,6 +13,7 @@ import { updateCvInfo } from '../../redux/cvInfoSlice.js';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { validateSocialField } from '../../composables/constants/rules.js';
+import { toast } from 'react-toastify';
 
 const Social = ({ formValues, onFormValuesChange, reportValidation }) => {
   const dispatch = useDispatch();
@@ -48,6 +49,11 @@ const Social = ({ formValues, onFormValuesChange, reportValidation }) => {
     }));
   };
   const addSocial = () => {
+    if (formValues.social.length >= 2) {
+      toast('You can only add 2 social links ');
+      return;
+    }
+
     if (validateAllSocialLinks()) {
       onFormValuesChange((prevValues) => ({
         ...prevValues,
@@ -77,6 +83,9 @@ const Social = ({ formValues, onFormValuesChange, reportValidation }) => {
         social: updatedSocial,
       };
       dispatch(updateCvInfo(updatedValues));
+
+      const isValid = validateAllSocialLinks(formValues);
+      reportValidation(isValid);
       return updatedValues;
     });
   };
@@ -149,7 +158,7 @@ const Social = ({ formValues, onFormValuesChange, reportValidation }) => {
             <Card
               key={index}
               variant="outlined"
-              className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[80%] "
+              className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[90%] md:tw-w-[80%] "
             >
               <div className="tw-w-full tw-flex tw-justify-end">
                 <Close
@@ -191,7 +200,7 @@ const Social = ({ formValues, onFormValuesChange, reportValidation }) => {
               <div className="tw-mt-5 tw-flex tw-justify-end">
                 <Button
                   variant="contained"
-                  color="secondary"
+                  color="primary"
                   onClick={() => handleAddSocial(index)}
                 >
                   Add
@@ -211,8 +220,7 @@ const Social = ({ formValues, onFormValuesChange, reportValidation }) => {
                     onClick={() => handleEditSocial(index)}
                   />
                   <Delete
-                    className="pointer"
-                    color={'warning'}
+                    className="pointer tw-text-[#FF0000]"
                     onClick={() => handleDeleteSocial(index)}
                   />
                 </div>
@@ -228,7 +236,7 @@ const Social = ({ formValues, onFormValuesChange, reportValidation }) => {
         <div className="tw-mt-[20px]">
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             fullWidth
             onClick={addSocial}
           >

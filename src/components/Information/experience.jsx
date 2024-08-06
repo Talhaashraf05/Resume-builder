@@ -184,7 +184,7 @@ const Experience = ({ formValues, onFormValuesChange, reportValidation }) => {
             <Card
               key={index}
               variant="outlined"
-              className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[80%] "
+              className="tw-w-[100%] tw-p-5 tw-m-1 sm:tw-w-[90%] md:tw-w-[80%]"
             >
               <div className="tw-w-full tw-flex tw-justify-end">
                 <Close
@@ -289,7 +289,7 @@ const Experience = ({ formValues, onFormValuesChange, reportValidation }) => {
               <div className=" tw-flex tw-justify-end">
                 <Button
                   variant="contained"
-                  color="secondary"
+                  color="primary"
                   onClick={() => handleAddWorkExperience(index)}
                 >
                   Add
@@ -309,8 +309,7 @@ const Experience = ({ formValues, onFormValuesChange, reportValidation }) => {
                     onClick={() => handleEditWorkExperience(index)}
                   />
                   <Delete
-                    className="pointer"
-                    color={'warning'}
+                    className="pointer tw-text-[#FF0000]"
                     onClick={() => handleDeleteWorkExperience(index)}
                   />
                 </div>
@@ -336,7 +335,7 @@ const Experience = ({ formValues, onFormValuesChange, reportValidation }) => {
         <div className="tw-mt-[20px]">
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             fullWidth
             onClick={addWorkExperience}
           >

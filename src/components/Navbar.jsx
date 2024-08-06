@@ -12,24 +12,15 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="tw-bg-[#E2CBE1] tw-border-b tw-border-[#FAE7E8]">
+      <nav className="tw-bg-cyan-200">
         <div className="tw-mx-auto tw-max-w-7xl tw-px-2 tw-sm:px-6 tw-lg:px-8">
           <div className="tw-flex tw-h-20 tw-items-center tw-justify-between">
-            <div>
+            <div className="tw-w-[75%]  sm:tw-w-[25%]">
               <h1 className="tw-text-white tw-text-2xl tw-font-bold">
-                CV Maker
+                <a href="/">CV Maker</a>
               </h1>
             </div>
-            <div className="tw-flex tw-flex-1 tw-items-center tw-justify-center tw-md:items-stretch tw-md:justify-start">
-              {/*<a className="flex flex-shrink-0 items-center mr-4" href="/">*/}
-              {/*    <img*/}
-              {/*        className="h-10 w-auto"*/}
-              {/*        src={logo}*/}
-              {/*        alt="React Jobs"*/}
-              {/*    />*/}
-              {/*    <span className="hidden md:block text-white text-2xl font-bold ml-2"> React Jobs </span*/}
-              {/*    >*/}
-              {/*</a>*/}
+            <div className="tw-hidden sm:tw-flex tw-flex-1 tw-items-center tw-justify-center tw-md:items-stretch tw-md:justify-start tw-w-[50%]">
               <div className="tw-md:ml-auto">
                 <div className="tw-flex tw-space-x-2">
                   <NavLink to="/" className={linkClass}>
@@ -41,7 +32,7 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-            <div>
+            <div className="tw-w-[25%] tw-flex tw-justify-end">
               <Button
                 variant="contained"
                 className={
@@ -51,7 +42,7 @@ const Navbar = () => {
                 }
                 onClick={toggleTheme}
               >
-                {mode === 'dark' ? <p>dark</p> : <p>bright</p>}
+                {mode === 'dark' ? <p>bright</p> : <p>dark</p>}
               </Button>
             </div>
           </div>
