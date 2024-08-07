@@ -10,9 +10,6 @@ const CVFormat = () => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  // const linkedInProfile = cvInfo.social.find(
-  //   (social) => social.platform === 'LINKEDIN',
-  // );
 
   return (
     <Card>
