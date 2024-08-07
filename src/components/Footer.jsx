@@ -1,4 +1,4 @@
-import { FacebookRounded, Instagram, LinkedIn, X } from '@mui/icons-material';
+import { Instagram, Language, LinkedIn } from '@mui/icons-material';
 import { useContext } from 'react';
 import { ThemeContext } from '../../themeContext.jsx';
 import Hamster from '/hamster.png';
@@ -20,22 +20,46 @@ const Footer = () => {
         </div>
 
         <div className="tw-w-1/3 tw-flex tw-justify-center tw-items-center tw-gap-5 sm:tw-w-1/3">
-          <FacebookRounded
-            className="pointer"
-            style={{ color: mode === 'dark' ? 'black' : 'white' }}
-          />
-          <Instagram
-            className="pointer"
-            style={{ color: mode === 'dark' ? 'black' : 'white' }}
-          />
-          <LinkedIn
-            className="pointer"
-            style={{ color: mode === 'dark' ? 'black' : 'white' }}
-          />
-          <X
-            className="pointer"
-            style={{ color: mode === 'dark' ? 'black' : 'white' }}
-          />
+          {/*<a*/}
+          {/*  href="https://www.facebook.com"*/}
+          {/*  target="_blank"*/}
+          {/*  rel="noopener noreferrer"*/}
+          {/*>*/}
+          {/*  <FacebookRounded*/}
+          {/*    className="pointer"*/}
+          {/*    style={{ color: mode === 'dark' ? 'black' : 'white' }}*/}
+          {/*  />*/}
+          {/*</a>*/}
+          <a
+            href="https://www.instagram.com/talha.getpid/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Instagram
+              className="pointer"
+              style={{ color: mode === 'dark' ? 'black' : 'white' }}
+            />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/talhaashraf45/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <LinkedIn
+              className="pointer"
+              style={{ color: mode === 'dark' ? 'black' : 'white' }}
+            />
+          </a>
+          <a
+            href="https://talhas.netlify.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Language
+              className="pointer"
+              style={{ color: mode === 'dark' ? 'black' : 'white' }}
+            />
+          </a>
         </div>
       </div>
       <div className="tw-flex tw-justify-center tw-items-center tw-h-[50px]">
