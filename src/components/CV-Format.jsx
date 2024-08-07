@@ -10,9 +10,9 @@ const CVFormat = () => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  const linkedInProfile = cvInfo.social.find(
-    (social) => social.platform === 'LINKEDIN',
-  );
+  // const linkedInProfile = cvInfo.social.find(
+  //   (social) => social.platform === 'LINKEDIN',
+  // );
 
   return (
     <Card>
@@ -32,21 +32,23 @@ const CVFormat = () => {
         </header>
 
         <div className="tw-flex tw-flex-row">
-          <div className=" tw-w-[50%] tw-pr-3 tw-mr-3">
-            <section className="tw-mb-3">
-              <h2 className="tw-text-2xl tw-font-semibold tw-border-b tw-pb-2">
+          <div className=" tw-w-[40%] tw-pr-3 tw-mr-3">
+            <section className="tw-mb-2">
+              <h2 className="tw-text-xl tw-font-semibold tw-border-b tw-pb-2">
                 Contact
               </h2>
               <div className="tw-mt-2 ">
                 <div className="tw-mb-3">
-                  {cvInfo.isNumberNeeded ? <p className="">Phone: </p> : null}
                   {cvInfo.isNumberNeeded ? (
-                    <p className="">
+                    <p className="tw-text-[15px]">Phone: </p>
+                  ) : null}
+                  {cvInfo.isNumberNeeded ? (
+                    <p className="tw-text-[15px]">
                       <a href={`tel:${cvInfo.number}`}>{cvInfo.number} </a>
                     </p>
                   ) : null}
-                  <p>Email: </p>
-                  <p>
+                  <p className="tw-text-[15px]">Email: </p>
+                  <p className="tw-text-[15px]">
                     <a href={`mailto:${cvInfo.email}`}>{cvInfo.email} </a>
                   </p>
                 </div>
@@ -54,12 +56,12 @@ const CVFormat = () => {
             </section>
 
             <section className="tw-mb-3">
-              <h2 className="tw-text-2xl tw-font-semibold tw-border-b tw-pb-2">
+              <h2 className="tw-text-xl tw-font-semibold tw-border-b tw-pb-2">
                 Education
               </h2>
               <div className="tw-mt-2 ">
                 {cvInfo.education.map((education, index) => (
-                  <div className="tw-mb-3" key={index}>
+                  <div className="tw-mb-1" key={index}>
                     <h2 className=" tw-font-[500]">{education.school}</h2>
                     <p className="tw-italic !tw-text-[15px]">
                       {education.degreeType} {education.major}
@@ -74,7 +76,7 @@ const CVFormat = () => {
             </section>
 
             <section className="tw-mb-3">
-              <h2 className="tw-text-2xl tw-font-semibold tw-border-b tw-pb-2">
+              <h2 className="tw-text-xl tw-font-semibold tw-border-b tw-pb-2">
                 Language
               </h2>
               <ul className="tw-mt-2 tw-mr-5">
@@ -83,40 +85,57 @@ const CVFormat = () => {
                     key={index}
                     className="tw-mb-2 tw-flex tw-justify-between"
                   >
-                    <h1 className="tw-inline">{language.language}</h1>
-                    <p className="tw-inline">{language.proficiency}</p>
+                    <h1 className="tw-inline tw-text-[15px]">
+                      {language.language}
+                    </h1>
+                    <p className="tw-inline tw-text-[15px]">
+                      {language.proficiency}
+                    </p>
                   </li>
                 ))}
               </ul>
             </section>
 
             <section className="tw-mb-3">
-              <h2 className="tw-text-2xl tw-font-semibold tw-border-b tw-pb-2">
+              <h2 className="tw-text-xl tw-font-semibold tw-border-b tw-pb-2">
                 Skills
               </h2>
               <div className="tw-mt-2">
                 {cvInfo.skills.map((skill, index) => (
-                  <div className="tw-mb-3" key={index}>
+                  <div className="tw-mb-1" key={index}>
                     <h2 className=" tw-font-[500]">{skill.category}</h2>
-                    <ul className="tw-list-disc tw-ml-5">
-                      {skill.skill.split(',').map((skillItem, idx) => (
-                        <li key={idx}>{skillItem.trim()}</li>
-                      ))}
-                    </ul>
+                    {/*<ul className="tw-list-disc tw-ml-5 tw-inline">*/}
+                    {/*  {skill.skill.split(',').map((skillItem, idx) => (*/}
+                    {/*    <li key={idx} className="tw-inline tw-ml-3">*/}
+                    {/*      {skillItem.trim()}*/}
+                    {/*    </li>*/}
+                    {/*  ))}*/}
+                    {/*</ul>*/}
+
+                    <p className="tw-text-[15px]">
+                      {skill.skill
+                        .split(',')
+                        .map((skillItem) => skillItem.trim())
+                        .join(' | ')}
+                    </p>
                   </div>
                 ))}
               </div>
             </section>
 
             <section className="tw-mb-3">
-              <h2 className="tw-text-2xl tw-font-semibold tw-border-b tw-pb-2">
+              <h2 className="tw-text-xl tw-font-semibold tw-border-b tw-pb-2">
                 Social
               </h2>
-              <div className="tw-mt-2">
+              <div className="tw-mt-2 tw-break-words tw-whitespace-normal">
                 {cvInfo.social.map((social, index) => (
                   <div className="tw-mb-3" key={index}>
-                    <h2 className=" tw-font-[500]">{social.platform}</h2>
-                    <a href={social.link}>{social.link} </a>
+                    <h2 className="tw-text-[15px] tw-font-[500]">
+                      {social.platform}
+                    </h2>
+                    <p className="tw-text-[14px]">
+                      <a href={social.link}>{social.link} </a>
+                    </p>
                   </div>
                 ))}
               </div>
@@ -126,16 +145,18 @@ const CVFormat = () => {
           <div className="tw-w-[100%] tw-flex tw-flex-col tw-justify-between">
             <div>
               <section className="tw-mb-6">
-                <h2 className="tw-text-2xl tw-font-semibold tw-border-b tw-pb-2">
+                <h2 className="tw-text-xl tw-font-semibold tw-border-b tw-pb-2">
                   Profile
                 </h2>
                 <div className="tw-mt-2">
-                  <p>{cvInfo.aboutMe}</p>
+                  <p className="tw-text-[15px] tw-leading-[19px]">
+                    {cvInfo.aboutMe}
+                  </p>
                 </div>
               </section>
 
               <section className="tw-mb-6">
-                <h2 className="tw-text-2xl tw-font-semibold tw-border-b tw-pb-2">
+                <h2 className="tw-text-xl tw-font-semibold tw-border-b tw-pb-2">
                   Work Experience
                 </h2>
                 <div className="tw-mt-2">
@@ -148,12 +169,14 @@ const CVFormat = () => {
                         {workExperience.startDate} - {workExperience.endDate} |{' '}
                         {workExperience.location}
                       </p>
-                      {/*<p>{workExperience.description}</p>*/}
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: workExperience.description,
-                        }}
-                      />
+                      <p className="tw-text-[15px] tw-leading-[19px]">
+                        {workExperience.description}
+                      </p>
+                      {/*<div*/}
+                      {/*  dangerouslySetInnerHTML={{*/}
+                      {/*    __html: workExperience.description,*/}
+                      {/*  }}*/}
+                      {/*/>*/}
                     </div>
                   ))}
                 </div>
@@ -172,11 +195,9 @@ const CVFormat = () => {
                         <h3 className="tw-font-bold">
                           {achievement.title} | {achievement.date}
                         </h3>
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: achievement.description,
-                          }}
-                        />
+                        <p className="tw-text-[15px] tw-leading-[19px]">
+                          {achievement.description}
+                        </p>
                       </div>
                     ))}
                   </div>

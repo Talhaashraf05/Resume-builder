@@ -7,7 +7,7 @@ const CVPage = () => {
   const navigate = useNavigate();
   const cvValidation = useSelector((state) => state.cvInfo.allInfoValidate);
   const isFormValid = Object.values(cvValidation).every(Boolean);
-
+  //
   // useEffect(() => {
   //   if (!isFormValid) {
   //     navigate('/');

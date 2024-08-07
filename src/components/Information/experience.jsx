@@ -6,7 +6,6 @@ import {
   TextField,
 } from '@mui/material';
 import { Close, Delete, Edit } from '@mui/icons-material';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { updateCvInfo } from '../../redux/cvInfoSlice.js';
 import { useDispatch } from 'react-redux';
@@ -16,13 +15,13 @@ import { useState } from 'react';
 const Experience = ({ formValues, onFormValuesChange, reportValidation }) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
-  const toolbarOptions = [
-    ['bold', 'italic'],
-    [{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
-  ];
-  const quillModules = {
-    toolbar: toolbarOptions,
-  };
+  // const toolbarOptions = [
+  //   ['bold', 'italic'],
+  //   [{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
+  // ];
+  // const quillModules = {
+  //   toolbar: toolbarOptions,
+  // };
 
   const validateAllExperienceEntries = () => {
     const newErrors = {};
@@ -59,17 +58,17 @@ const Experience = ({ formValues, onFormValuesChange, reportValidation }) => {
       workExperience: updatedExperience,
     }));
   };
-  const handleWorkExperienceChangeQuill = (index, name, value) => {
-    const updatedExperience = [...formValues.workExperience];
-    updatedExperience[index] = {
-      ...updatedExperience[index],
-      [name]: value,
-    };
-    onFormValuesChange((prevValues) => ({
-      ...prevValues,
-      workExperience: updatedExperience,
-    }));
-  };
+  // const handleWorkExperienceChangeQuill = (index, name, value) => {
+  //   const updatedExperience = [...formValues.workExperience];
+  //   updatedExperience[index] = {
+  //     ...updatedExperience[index],
+  //     [name]: value,
+  //   };
+  //   onFormValuesChange((prevValues) => ({
+  //     ...prevValues,
+  //     workExperience: updatedExperience,
+  //   }));
+  // };
   const addWorkExperience = () => {
     if (validateAllExperienceEntries()) {
       onFormValuesChange((prevValues) => ({
@@ -271,18 +270,32 @@ const Experience = ({ formValues, onFormValuesChange, reportValidation }) => {
 
               <div className="tw-gap-3 tw-flex tw-justify-between tw-mt-[20px] ">
                 <div style={{ height: '100px', width: '100%' }}>
-                  <ReactQuill
-                    className="tw-w-full"
-                    modules={quillModules}
-                    theme="snow"
+                  {/*<ReactQuill*/}
+                  {/*  className="tw-w-full"*/}
+                  {/*  modules={quillModules}*/}
+                  {/*  theme="snow"*/}
+                  {/*  value={workExperience.description}*/}
+                  {/*  onChange={(value) =>*/}
+                  {/*    handleWorkExperienceChangeQuill(*/}
+                  {/*      index,*/}
+                  {/*      'description',*/}
+                  {/*      value,*/}
+                  {/*    )*/}
+                  {/*  }*/}
+                  {/*/>*/}
+                  <TextField
+                    name="description"
+                    InputLabelProps={{ shrink: true }}
+                    label="Description"
+                    multiline
+                    rows={3}
+                    variant="standard"
                     value={workExperience.description}
-                    onChange={(value) =>
-                      handleWorkExperienceChangeQuill(
-                        index,
-                        'description',
-                        value,
-                      )
-                    }
+                    fullWidth
+                    onChange={(e) => handleWorkExperienceChange(index, e)}
+                    error={!!errors[index]?.description}
+                    helperText="Maximum 300 characters"
+                    inputProps={{ maxLength: 300 }}
                   />
                 </div>
               </div>

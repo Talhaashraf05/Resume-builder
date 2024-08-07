@@ -9,15 +9,21 @@ export const introValidation = (name, value, isNumberNeeded) => {
       if (!/\S+@\S+\.\S+/.test(value)) error = 'Invalid email format.';
       break;
     case 'website':
-      if (!/^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(value))
+      if (
+        !/^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+(:\d+)?(\/.*)?$/.test(
+          value,
+        )
+      )
         error = 'Invalid URL.';
+
       break;
     case 'number':
       if (isNumberNeeded && !/^\d+$/.test(value))
         error = 'Number must be digits only.';
       break;
     case 'aboutMe':
-      if (value.trim().length <= 10) error = 'Must be more than 10 characters.';
+      if (value.trim().length <= 10)
+        error = 'Must be more than 10 characters and max 500 characters.';
       break;
     default:
       break;
@@ -75,6 +81,7 @@ export const validateExperienceField = (name, value, isCurrent, startDate) => {
     case 'location':
     case 'position':
     case 'startDate':
+    case 'description':
       if (value.trim() === '') return 'This field is required.';
       break;
     case 'endDate':

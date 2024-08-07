@@ -6,3 +6,10 @@ ul{
     list-style-type: circle;
     padding: 0;
 }
+
+@media print {
+    .scale-to-fit {
+        transform: scale(0.75); /* Adjust the scale value as needed */
+        transform-origin: top left;
+    }
+}

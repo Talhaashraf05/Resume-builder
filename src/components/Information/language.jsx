@@ -1,5 +1,13 @@
 import { useDispatch } from 'react-redux';
-import { Button, Card, MenuItem, Select, TextField } from '@mui/material';
+import {
+  Button,
+  Card,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material';
 import { Close, Delete, Edit } from '@mui/icons-material';
 import { updateCvInfo } from '../../redux/cvInfoSlice.js';
 import { useState } from 'react';
@@ -145,33 +153,38 @@ const Language = ({ formValues, onFormValuesChange, reportValidation }) => {
                 />
               </div>
               <div className="tw-gap-5 tw-flex tw-flex-row">
-                <TextField
-                  name="language"
-                  label="Languages"
-                  variant="standard"
-                  value={language.language}
-                  error={!!errors[index]?.language}
-                  helperText={errors[index]?.language}
-                  onChange={(e) => handleLanguageChange(index, e)}
-                  fullWidth
-                />
-                <Select
-                  name="proficiency"
-                  labelId="demo-simple-select-label"
-                  variant="standard"
-                  InputLabelProps={{ shrink: true }}
-                  fullWidth
-                  id="proficiency"
-                  value={language.proficiency}
-                  error={!!errors[index]?.proficiency}
-                  label="Proficiency"
-                  onChange={(e) => handleLanguageChange(index, e)}
-                >
-                  <MenuItem value={'Beginner'}>Beginner</MenuItem>
-                  <MenuItem value={'Intermediate'}>Intermediate</MenuItem>
-                  <MenuItem value={'Advanced'}>Advanced</MenuItem>
-                  <MenuItem value={'Native'}>Native</MenuItem>
-                </Select>
+                <div className=" tw-w-full">
+                  <TextField
+                    name="language"
+                    label="Languages"
+                    variant="standard"
+                    value={language.language}
+                    error={!!errors[index]?.language}
+                    helperText={errors[index]?.language}
+                    onChange={(e) => handleLanguageChange(index, e)}
+                    fullWidth
+                  />
+                </div>
+
+                <FormControl variant="standard" className="tw-w-full">
+                  <InputLabel id="demo-simple-select-label">
+                    Proficiency
+                  </InputLabel>
+                  <Select
+                    name="proficiency"
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    fullWidth
+                    value={language.proficiency}
+                    error={!!errors[index]?.proficiency}
+                    onChange={(e) => handleLanguageChange(index, e)}
+                  >
+                    <MenuItem value={'Beginner'}>Beginner</MenuItem>
+                    <MenuItem value={'Intermediate'}>Intermediate</MenuItem>
+                    <MenuItem value={'Advanced'}>Advanced</MenuItem>
+                    <MenuItem value={'Native'}>Native</MenuItem>
+                  </Select>
+                </FormControl>
               </div>
               <div className="tw-mt-5 tw-flex tw-justify-end">
                 <Button
