@@ -171,7 +171,7 @@ const Social = ({ formValues, onFormValuesChange, reportValidation }) => {
                   <InputLabel id="platform-id">Platform</InputLabel>
                   <Select
                     name="platform"
-                    lableId="platform-id"
+                    // lableId="platform-id"
                     variant="standard"
                     onChange={(e) => handleSocialChange(index, e)}
                     value={social.platform}

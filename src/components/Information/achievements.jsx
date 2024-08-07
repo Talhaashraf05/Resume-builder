@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { Button, Card, TextField } from '@mui/material';
 import { Close, Delete, Edit } from '@mui/icons-material';
-import ReactQuill from 'react-quill';
 import { updateCvInfo } from '../../redux/cvInfoSlice.js';
 import { useState } from 'react';
 import { validateAchievementField } from '../../composables/constants/rules.js';
@@ -185,14 +184,28 @@ const Achievements = ({ formValues, onFormValuesChange }) => {
 
               <div className="tw-gap-3 tw-flex tw-justify-between tw-mt-[20px] ">
                 <div style={{ height: '100px', width: '100%' }}>
-                  <ReactQuill
-                    className="tw-w-full"
-                    modules={quillModules}
-                    theme="snow"
+                  {/*<ReactQuill*/}
+                  {/*  className="tw-w-full"*/}
+                  {/*  modules={quillModules}*/}
+                  {/*  theme="snow"*/}
+                  {/*  value={achievement.description}*/}
+                  {/*  onChange={(value) =>*/}
+                  {/*    handleAchievementChangeQuill(index, 'description', value)*/}
+                  {/*  }*/}
+                  {/*/>*/}
+                  <TextField
+                    name="description"
+                    InputLabelProps={{ shrink: true }}
+                    label="Description"
+                    multiline
+                    rows={3}
+                    variant="standard"
                     value={achievement.description}
-                    onChange={(value) =>
-                      handleAchievementChangeQuill(index, 'description', value)
-                    }
+                    fullWidth
+                    onChange={(e) => handleAchievementChange(index, e)}
+                    error={!!errors[index]?.description}
+                    helperText="Maximum 300 characters"
+                    inputProps={{ maxLength: 300 }}
                   />
                 </div>
               </div>

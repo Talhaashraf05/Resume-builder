@@ -193,7 +193,10 @@ const Intro = ({ formValues, onFormValuesChange, reportValidation }) => {
                 fullWidth
                 onChange={handleInfoChange}
                 error={!!errors.aboutMe}
-                helperText={errors.aboutMe}
+                helperText={
+                  errors.aboutMe ? errors.aboutMe : 'Maximum 500 characters'
+                }
+                inputProps={{ maxLength: 500 }}
               />
             </div>
           </Card>
