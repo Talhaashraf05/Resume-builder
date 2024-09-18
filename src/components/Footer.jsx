@@ -20,16 +20,6 @@ const Footer = () => {
         </div>
 
         <div className="tw-w-1/3 tw-flex tw-justify-center tw-items-center tw-gap-5 sm:tw-w-1/3">
-          {/*<a*/}
-          {/*  href="https://www.facebook.com"*/}
-          {/*  target="_blank"*/}
-          {/*  rel="noopener noreferrer"*/}
-          {/*>*/}
-          {/*  <FacebookRounded*/}
-          {/*    className="pointer"*/}
-          {/*    style={{ color: mode === 'dark' ? 'black' : 'white' }}*/}
-          {/*  />*/}
-          {/*</a>*/}
           <a
             href="https://www.instagram.com/talha.getpid/"
             target="_blank"
