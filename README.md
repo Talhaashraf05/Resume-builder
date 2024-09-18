@@ -14,7 +14,7 @@ Make sure you have **Node.js** version 18.0.0 or higher installed.
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-repository-link
+   git clone https://github.com/Talhaashraf05/Resume-builder.git
    
 2. **Install dependencies:**:
    ```bash
